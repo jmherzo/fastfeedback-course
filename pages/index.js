@@ -1,32 +1,42 @@
 import Head from 'next/head';
 import { useAuth } from '@/lib/auth';
-import { Button, Code, Heading, Text } from '@chakra-ui/react';
+import { Button, Code, Flex, Icon, Text } from '@chakra-ui/react';
+import { LogoIcon } from '@/components/Icons';
+import { EmptyState } from '@/components/EmptyState';
 
 export default function Home() {
   const auth = useAuth();
   return (
-    <div>
+    <Flex
+      as="main"
+      direction="column"
+      align="center"
+      justify="center"
+      h="100vh"
+    >
       <Head>
         <title>FastFeedback</title>
-        <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
 
-      <main>
-        <Heading>Fast Feedback </Heading>
-        {auth?.user ? (
-          <>
-            <Text>
-              Current user mail
-              <Code>{auth?.user?.email}</Code>
-            </Text>
-            <Button onClick={(e) => auth.signout()}>{'Sign out'}</Button>
-          </>
-        ) : (
-          <Button onClick={(e) => auth.signinWithGithub()}>
-            {'Sign in with Github'}
-          </Button>
-        )}
-      </main>
-    </div>
+      <LogoIcon color="black" boxSize="64px" />
+      {auth?.user ? (
+        <>
+          <EmptyState />
+          {/* <Button mt={4} onClick={(e) => auth.signout()}>
+            {'Sign out'}
+          </Button> */}
+        </>
+      ) : (
+        <Button
+          variant="ghost"
+          size="sm"
+          mt={4}
+          onClick={(e) => auth.signinWithGithub()}
+        >
+          {'Sign in with Github'}
+        </Button>
+      )}
+    </Flex>
   );
 }

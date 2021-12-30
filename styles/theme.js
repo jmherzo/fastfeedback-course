@@ -6,12 +6,12 @@ const theme = extendTheme({
     ...chakraTheme,
     global: {
       html: {
-        'scroll-behavior': 'smooth'
+        scrollBehavior: 'smooth'
       },
       '#__next': {
         display: 'flex',
-        'flex-direction': 'column',
-        'min-height': '100vh'
+        flexDirection: 'column',
+        minHeight: '100vh'
       }
     },
     fonts: {
