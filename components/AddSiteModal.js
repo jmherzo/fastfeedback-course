@@ -17,23 +17,29 @@ import {
 import { useForm } from 'react-hook-form';
 import { createSite } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
+import useSWR, { mutate } from 'swr';
+import { fetcher } from '@/utils/fetcher';
 
-export function AddSiteModal() {
+export function AddSiteModal({ children }) {
+  // TODO: make it work with refs
   // const initialRef = useRef();
   // const finalRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, reset } = useForm();
   const toast = useToast();
   const auth = useAuth();
+  const { data } = useSWR('/api/sites', fetcher);
 
-  const onSubmit = async ({ website, link }) => {
+  const onCreateSite = async ({ name, url }) => {
     try {
-      await createSite({
+      const newSite = {
         authorID: auth.user.uid,
         createdAt: new Date().toISOString(),
-        website,
-        link
-      });
+        name,
+        url
+      };
+      await createSite(newSite);
+      onClose();
       toast({
         title: 'Site added successfully.',
         description: "We've added your site.",
@@ -41,7 +47,9 @@ export function AddSiteModal() {
         duration: 9000,
         isClosable: true
       });
-      onClose();
+      mutate('/api/sites', { sites: [...data.sites, newSite] }, false);
+
+      reset();
     } catch (e) {
       // TODO: Send error to logger
       console.log(e);
@@ -57,8 +65,15 @@ export function AddSiteModal() {
 
   return (
     <>
-      <Button onClick={onOpen} fontWeight="medium" size="md" mt={4}>
-        Add your first site
+      <Button
+        onClick={onOpen}
+        backgroundColor="gray.900"
+        color="white"
+        fontWeight="medium"
+        size="md"
+        _hover={{ bg: 'gray.700' }}
+      >
+        {children}
       </Button>
 
       <Modal
@@ -68,15 +83,16 @@ export function AddSiteModal() {
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent as="form" onSubmit={handleSubmit(onSubmit)}>
+        <ModalContent as="form" onSubmit={handleSubmit(onCreateSite)}>
           <ModalHeader>Add Site</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Name</FormLabel>
               <Input
+                isRequired
                 placeholder="My site"
-                {...register('website', {
+                {...register('name', {
                   required: 'Required'
                 })}
               />
@@ -85,8 +101,9 @@ export function AddSiteModal() {
             <FormControl mt={4}>
               <FormLabel>Link</FormLabel>
               <Input
+                isRequired
                 placeholder="https://mycoolsite.com"
-                {...register('link', {
+                {...register('url', {
                   required: 'Required'
                 })}
               />
