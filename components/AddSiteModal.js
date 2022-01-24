@@ -28,6 +28,7 @@ export function AddSiteModal({ children }) {
   const { handleSubmit, register, reset } = useForm();
   const toast = useToast();
   const auth = useAuth();
+  // This gets called everytime a user clicks on the modal
   const { data } = useSWR('/api/sites', fetcher);
 
   const onCreateSite = async ({ name, url }) => {
