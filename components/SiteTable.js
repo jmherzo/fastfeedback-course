@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Link } from '@chakra-ui/react';
 import { Table, Tr, Th, Td } from './Table';
 import { format, parseISO } from 'date-fns';
-import NextLink from 'next/Link';
+import NextLink from 'next/link';
 
 const SiteTable = ({ sites }) => {
   return (
