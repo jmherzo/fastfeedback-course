@@ -15,6 +15,17 @@ export default function Home() {
       h="100vh"
     >
       <Head>
+        <Head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+          if (document.cookie && document.cookie.includes('authed')) {
+            window.location.href = "/dashboard"
+          }
+        `
+            }}
+          />
+        </Head>
         <title>FastFeedback</title>
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>

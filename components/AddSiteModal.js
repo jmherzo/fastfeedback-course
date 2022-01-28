@@ -27,14 +27,18 @@ export function AddSiteModal({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, reset } = useForm();
   const toast = useToast();
-  const auth = useAuth();
-  // This gets called everytime a user clicks on the modal
-  const { data } = useSWR('/api/sites', fetcher);
+  const { user = null } = useAuth();
+  // TODO: change as this gets called everytime a user clicks on the modal
+  // Move to another component like DashboardShell
+  const { data } = useSWR(
+    user?.token ? ['/api/sites', user.token] : null,
+    fetcher
+  );
 
   const onCreateSite = async ({ name, url }) => {
     try {
       const newSite = {
-        authorID: auth.user.uid,
+        authorID: user.uid,
         createdAt: new Date().toISOString(),
         name,
         url
@@ -48,7 +52,11 @@ export function AddSiteModal({ children }) {
         duration: 9000,
         isClosable: true
       });
-      mutate('/api/sites', { sites: [...data.sites, newSite] }, false);
+      mutate(
+        user?.token ? ['/api/sites', user.token] : null,
+        { sites: [...data.sites, newSite] },
+        false
+      );
 
       reset();
     } catch (e) {
