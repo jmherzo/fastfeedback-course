@@ -1,11 +1,12 @@
-import { getAllSites } from '@/lib/db-admin';
+import { getUserSites } from '@/lib/db-admin';
+import { auth } from '@/lib/firebase-admin';
 
-export default async (_, res) => {
+export default async (req, res) => {
   try {
-    const { sites } = await getAllSites();
-    res.status(200).json({ sites });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ error: 'Internal server error getting the sites' });
+    const user = await auth.verifyIdToken(req.headers?.token);
+    const sites = await getUserSites(user.uid);
+    res.status(200).json(sites);
+  } catch (error) {
+    res.status(500).json({ error });
   }
 };

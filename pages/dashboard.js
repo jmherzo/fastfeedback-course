@@ -4,16 +4,24 @@ import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import useSWR from 'swr';
 import { fetcher } from '@/utils/fetcher';
 import SiteTable from '@/components/SiteTable';
+import { useAuth } from '@/lib/auth';
+
 export default function Dashboard() {
-  const { data } = useSWR('/api/sites', fetcher);
-  if (data?.sites === 0) {
-    <DashboardShell>
-      <EmptyState />
-    </DashboardShell>;
+  const { user = null } = useAuth();
+  const { data } = useSWR(
+    user?.token ? ['/api/sites', user.token] : null,
+    fetcher
+  );
+  if (!data) {
+    return (
+      <DashboardShell>
+        <SiteTableSkeleton />
+      </DashboardShell>
+    );
   }
   return (
     <DashboardShell>
-      {data?.sites ? <SiteTable sites={data?.sites} /> : <SiteTableSkeleton />}
+      {data.sites ? <SiteTable sites={data?.sites} /> : <EmptyState />}
     </DashboardShell>
   );
 }
