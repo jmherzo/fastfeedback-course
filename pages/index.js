@@ -15,28 +15,22 @@ export default function Home() {
       h="100vh"
     >
       <Head>
-        <Head>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+        <title>FastFeedback by jmherzo</title>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
           if (document.cookie && document.cookie.includes('authed')) {
             window.location.href = "/dashboard"
           }
         `
-            }}
-          />
-        </Head>
-        <title>FastFeedback</title>
-        {/* <link rel="icon" href="/favicon.ico" /> */}
+          }}
+        />
       </Head>
 
       <LogoIcon color="black" boxSize="64px" />
       {auth?.user ? (
         <>
           <EmptyState />
-          {/* <Button mt={4} onClick={(e) => auth.signout()}>
-            {'Sign out'}
-          </Button> */}
         </>
       ) : (
         <Button

@@ -1,8 +1,10 @@
 import React from 'react';
-import { Heading, Flex, Text } from '@chakra-ui/react';
-import { AddSiteModal } from './AddSiteModal';
+import { Heading, Flex, Text, Button } from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 
 export function EmptyState() {
+  const router = useRouter();
   return (
     <Flex
       id="EmptyState"
@@ -10,14 +12,27 @@ export function EmptyState() {
       alignItems="center"
       backgroundColor="white"
       borderRadius="8px"
-      p={12}
-      mt={4}
+      p={8}
     >
-      <Heading size="lg" as="h2">
-        You haven't added any sites.
-      </Heading>
-      <Text>Let's get started.</Text>
-      <AddSiteModal> Add your first site </AddSiteModal>
+      {router.asPath === '/' ? (
+        <>
+          <Heading size="lg" as="h2">
+            Fast Feedback by jmherzo
+          </Heading>
+          <NextLink href="/dashboard">
+            <Button mt={8} colorScheme="blue">
+              Go to Dashboard
+            </Button>
+          </NextLink>
+        </>
+      ) : (
+        <>
+          <Heading size="lg" as="h2">
+            You haven't added data.
+          </Heading>
+          <Text>Let's get started.</Text>
+        </>
+      )}
     </Flex>
   );
 }

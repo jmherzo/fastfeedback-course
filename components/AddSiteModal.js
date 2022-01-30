@@ -38,7 +38,7 @@ export function AddSiteModal({ children }) {
   const onCreateSite = async ({ name, url }) => {
     try {
       const newSite = {
-        authorID: user.uid,
+        authorId: user.uid,
         createdAt: new Date().toISOString(),
         name,
         url
