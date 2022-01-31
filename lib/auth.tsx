@@ -1,10 +1,25 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 import firebase from '@/lib/firebase';
 import { createUser } from './db';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 
-const authContext = createContext();
+interface Authentication {
+  user?: User;
+  signinWithGithub: () => Promise<void>;
+  signout: () => Promise<void>;
+}
+
+interface User {
+  uid: string;
+  email: string;
+  name: string;
+  token: string;
+  provider: string;
+  photoUrl: string;
+}
+
+const authContext = createContext<Authentication>(null);
 
 export function AuthProvider({ children }) {
   const auth = useProvideAuth();
@@ -15,7 +30,7 @@ export const useAuth = () => {
   return useContext(authContext);
 };
 
-const formatUser = (user) => ({
+const formatUser = (user): User => ({
   uid: user.uid,
   email: user.email, // Handle with try catch
   name: user.displayName,
@@ -24,8 +39,8 @@ const formatUser = (user) => ({
   photoUrl: user.photoURL
 });
 
-function useProvideAuth() {
-  const [user, setUser] = useState(null);
+function useProvideAuth(): Authentication {
+  const [user, setUser] = useState<User>(null);
   const router = useRouter();
   const handleUser = (rawUser) => {
     if (rawUser) {
@@ -34,7 +49,7 @@ function useProvideAuth() {
 
       // Creating user in DB wihtout token as DB was not designed to have that field
       createUser(user.uid, userWithoutToken);
-      Cookies.set('fast-feedback-auth', true, {
+      Cookies.set('fast-feedback-auth', 'true', {
         expires: 1
       });
       setUser(user);

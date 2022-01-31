@@ -5,7 +5,7 @@ import { useAuth } from '@/lib/auth';
 import NextLink from 'next/link';
 
 export function DashboardShell({ children }) {
-  const auth = useAuth();
+  const { user = null, signout } = useAuth();
   return (
     <Flex flexDirection="column">
       <Flex id="navbar" justifyContent="space-between" p={4}>
@@ -27,12 +27,12 @@ export function DashboardShell({ children }) {
           justifyContent="space-between"
           flexDirection="row"
         >
-          {auth.user ? (
-            <Link mr={4} onClick={() => auth.signout()}>
+          {user ? (
+            <Link mr={4} onClick={() => signout()}>
               Log Out
             </Link>
           ) : null}
-          <Avatar size="sm" src={auth?.user?.photoUrl} />
+          <Avatar size="sm" src={user?.photoUrl} />
         </Flex>
       </Flex>
       <Flex

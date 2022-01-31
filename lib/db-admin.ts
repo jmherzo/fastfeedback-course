@@ -1,7 +1,7 @@
 import { compareDesc, parseISO } from 'date-fns';
 import { firestore } from './firebase-admin';
 
-export async function getAllFeedback(siteId) {
+export async function getAllFeedback(siteId: string) {
   const snapshot = await firestore
     .collection('feedback')
     .where('siteId', '==', siteId)
@@ -25,7 +25,7 @@ export async function getAllSites() {
   return { sites };
 }
 
-export async function getUserSites(uid) {
+export async function getUserSites(uid: string) {
   const snapshot = await firestore
     .collection('sites')
     ?.where('authorId', '==', uid)
@@ -37,7 +37,7 @@ export async function getUserSites(uid) {
   return { sites };
 }
 
-export async function getUserFeedbacks(uid) {
+export async function getUserFeedbacks(uid: string) {
   const snapshot = await firestore
     .collection('feedback')
     ?.where('authorId', '==', uid)

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Code, IconButton, Switch, Tooltip } from '@chakra-ui/react';
 import { Table, Tr, Th, Td } from './Table';
+import { DeleteIcon } from '@chakra-ui/icons';
 
 const FeedbackTable = ({ feedbacks }) => {
   return (
@@ -34,7 +35,7 @@ const FeedbackTable = ({ feedbacks }) => {
                 <IconButton
                   variant="ghost"
                   aria-label="Remove feedback"
-                  icon="delete"
+                  icon={<DeleteIcon />}
                 />
               </Tooltip>
             </Td>

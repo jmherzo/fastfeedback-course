@@ -2,7 +2,7 @@ import firebase from 'firebase';
 
 const firestore = firebase.firestore();
 
-export function createUser(uid, data) {
+export function createUser(uid: string, data) {
   return firestore
     .collection('users')
     .doc(uid)

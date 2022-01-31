@@ -1,4 +1,3 @@
-import React from 'react';
 import { theme as chakraTheme, extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
@@ -24,7 +23,6 @@ const theme = extendTheme({
       bold: 700
     },
     icons: {
-      ...chakraTheme.icons,
       logo: {
         path: (
           <path

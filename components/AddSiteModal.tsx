@@ -27,7 +27,8 @@ export function AddSiteModal({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, reset } = useForm();
   const toast = useToast();
-  const { user = null } = useAuth();
+  const { user = null } = useAuth() as any; //TODO: add types
+
   // TODO: change as this gets called everytime a user clicks on the modal
   // Move to another component like DashboardShell
   const { data } = useSWR(

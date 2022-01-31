@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Feedback from '@/components/Feedback';
 import { useAuth } from '@/lib/auth';
@@ -12,9 +12,10 @@ import {
   useToast
 } from '@chakra-ui/react';
 import { createFeedback } from '@/lib/db';
+import { GetStaticProps, GetStaticPaths } from 'next';
 
-export async function getStaticProps(context) {
-  const siteId = context.params.siteId;
+export const getStaticProps: GetStaticProps = async (context) => {
+  const siteId = context.params.siteId as string;
   // Add error handling
   const { feedback } = await getAllFeedback(siteId);
   return {
@@ -23,9 +24,9 @@ export async function getStaticProps(context) {
     },
     revalidate: 1
   };
-}
+};
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   const { sites } = await getAllSites();
   const paths = sites.map((site) => ({
     params: { siteId: site.id.toString() }
@@ -34,7 +35,7 @@ export async function getStaticPaths() {
     paths: paths,
     fallback: false
   };
-}
+};
 
 export default function SiteFeedback({ initialFeedback }) {
   const auth = useAuth();
