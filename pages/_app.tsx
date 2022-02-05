@@ -1,13 +1,9 @@
 import { AuthProvider } from '@/lib/auth';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import baseTheme from '@/styles/theme';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from '@/styles/theme';
+import { AppProps } from 'next/app';
 
-const theme = extendTheme({
-  ...baseTheme,
-  useSystemColorMode: true
-});
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>

@@ -28,9 +28,9 @@ export function EmptyState() {
       ) : (
         <>
           <Heading size="lg" as="h2">
-            You haven't added data.
+            {"You haven't added data."}
           </Heading>
-          <Text>Let's get started.</Text>
+          <Text>{"Let's get started."}</Text>
         </>
       )}
     </Flex>

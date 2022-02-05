@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Flex, Link, Stack, Avatar } from '@chakra-ui/react';
 import { LogoIcon } from './Icons';
 import { useAuth } from '@/lib/auth';
 import NextLink from 'next/link';
 
-export function DashboardShell({ children }) {
-  const { user = null, signout } = useAuth();
+type DashboardShellProps = {
+  children: ReactNode;
+};
+
+export function DashboardShell({ children }: DashboardShellProps) {
+  const { user, signout } = useAuth();
   return (
     <Flex flexDirection="column">
       <Flex id="navbar" justifyContent="space-between" p={4}>
@@ -28,11 +32,11 @@ export function DashboardShell({ children }) {
           flexDirection="row"
         >
           {user ? (
-            <Link mr={4} onClick={() => signout()}>
+            <Link mr={4} onClick={() => signout?.()}>
               Log Out
             </Link>
           ) : null}
-          <Avatar size="sm" src={user?.photoUrl} />
+          <Avatar size="sm" src={user?.photoUrl ?? ''} />
         </Flex>
       </Flex>
       <Flex

@@ -3,14 +3,15 @@ import { DashboardShell } from '@/components/DashboardShell';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import useSWR from 'swr';
 import { fetcher } from '@/utils/fetcher';
-import FeedbackTable from '@/components/FeedbackTable';
+import { FeedbackTable } from '@/components/FeedbackTable';
 import { useAuth } from '@/lib/auth';
 import { FeedbackTableHeader } from '@/components/FeedbackTableHeader';
+import { FeedbackWithId } from '@/lib/db-admin';
 
 function Feedback() {
   const { user = null } = useAuth();
-  const { data } = useSWR(
-    user?.token ? ['/api/feedbacks', user.token] : null,
+  const { data } = useSWR<FeedbackWithId[]>(
+    user?.token ? ['/api/feedback', user.token] : null,
     fetcher
   );
   if (!data) {
@@ -24,11 +25,7 @@ function Feedback() {
   return (
     <DashboardShell>
       <FeedbackTableHeader />
-      {data.feedbacks?.length ? (
-        <FeedbackTable feedbacks={data?.feedbacks} />
-      ) : (
-        <EmptyState />
-      )}
+      {data.length ? <FeedbackTable feedback={data} /> : <EmptyState />}
     </DashboardShell>
   );
 }

@@ -1,9 +1,14 @@
 import React from 'react';
-import { Box, Code, IconButton, Switch, Tooltip } from '@chakra-ui/react';
+import { Box, Code, Switch } from '@chakra-ui/react';
 import { Table, Tr, Th, Td } from './Table';
-import { DeleteIcon } from '@chakra-ui/icons';
+import { RemoveButton } from './RemoveButton';
+import { FeedbackWithId } from '@/lib/db-admin';
 
-const FeedbackTable = ({ feedbacks }) => {
+type FeedbackTableProps = {
+  feedback: FeedbackWithId[];
+};
+
+export const FeedbackTable = ({ feedback }: FeedbackTableProps) => {
   return (
     <Table>
       <thead>
@@ -16,7 +21,7 @@ const FeedbackTable = ({ feedbacks }) => {
         </Tr>
       </thead>
       <tbody>
-        {feedbacks?.map((feedback, i) => (
+        {feedback.map((feedback, i) => (
           <Box as="tr" key={feedback.id + i}>
             <Td fontWeight="medium">{feedback.author}</Td>
             <Td>{feedback.text}</Td>
@@ -31,13 +36,7 @@ const FeedbackTable = ({ feedbacks }) => {
               />
             </Td>
             <Td>
-              <Tooltip label="remove">
-                <IconButton
-                  variant="ghost"
-                  aria-label="Remove feedback"
-                  icon={<DeleteIcon />}
-                />
-              </Tooltip>
+              <RemoveButton feedbackId={feedback.id} />
             </Td>
           </Box>
         ))}
@@ -45,5 +44,3 @@ const FeedbackTable = ({ feedbacks }) => {
     </Table>
   );
 };
-
-export default FeedbackTable;

@@ -6,10 +6,11 @@ import { fetcher } from '@/utils/fetcher';
 import SiteTable from '@/components/SiteTable';
 import { useAuth } from '@/lib/auth';
 import { SiteTableHeader } from '@/components/SiteTableHeader';
+import { SiteWithId } from '@/lib/db-admin';
 
 export default function Dashboard() {
   const { user = null } = useAuth();
-  const { data } = useSWR(
+  const { data } = useSWR<SiteWithId[]>(
     user?.token ? ['/api/sites', user.token] : null,
     fetcher
   );
@@ -24,7 +25,7 @@ export default function Dashboard() {
   return (
     <DashboardShell>
       <SiteTableHeader />
-      {data.sites?.length ? <SiteTable sites={data?.sites} /> : <EmptyState />}
+      {data?.length ? <SiteTable sites={data} /> : <EmptyState />}
     </DashboardShell>
   );
 }
