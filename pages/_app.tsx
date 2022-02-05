@@ -1,8 +1,9 @@
 import { AuthProvider } from '@/lib/auth';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
+import { AppProps } from 'next/app';
 
-function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
@@ -12,4 +13,4 @@ function App({ Component, pageProps }) {
   );
 }
 
-export default App;
+export default MyApp;

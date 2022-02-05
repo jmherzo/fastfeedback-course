@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ReactNode } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -17,50 +17,56 @@ import {
 import { useForm } from 'react-hook-form';
 import { createSite } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
-import useSWR, { mutate } from 'swr';
-import { fetcher } from '@/utils/fetcher';
+import { mutate } from 'swr';
+import { Site } from '@/lib/interfaces/Site';
+import { SiteWithId } from '@/lib/db-admin';
 
-export function AddSiteModal({ children }) {
+type AddSiteModalProps = {
+  children: ReactNode;
+};
+
+type CreateSite = {
+  name: string;
+  url: string;
+};
+
+export function AddSiteModal({ children }: AddSiteModalProps) {
   // TODO: make it work with refs
   // const initialRef = useRef();
   // const finalRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, reset } = useForm();
   const toast = useToast();
-  const { user = null } = useAuth();
-  // TODO: change as this gets called everytime a user clicks on the modal
-  // Move to another component like DashboardShell
-  const { data } = useSWR(
-    user?.token ? ['/api/sites', user.token] : null,
-    fetcher
-  );
+  const { user } = useAuth();
 
-  const onCreateSite = async ({ name, url }) => {
+  const onCreateSite = async ({ name, url }: CreateSite) => {
     try {
-      const newSite = {
-        authorID: user.uid,
-        createdAt: new Date().toISOString(),
-        name,
-        url
-      };
-      await createSite(newSite);
-      onClose();
-      toast({
-        title: 'Site added successfully.',
-        description: "We've added your site.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true
-      });
-      mutate(
-        user?.token ? ['/api/sites', user.token] : null,
-        { sites: [...data.sites, newSite] },
-        false
-      );
-
-      reset();
+      if (user) {
+        const newSite: Site = {
+          authorId: user.uid,
+          createdAt: new Date().toISOString(),
+          name,
+          url
+        };
+        await createSite(newSite);
+        onClose();
+        toast({
+          title: 'Site added successfully.',
+          description: "We've added your site.",
+          status: 'success',
+          duration: 9000,
+          isClosable: true
+        });
+        mutate(
+          user?.token ? ['/api/sites', user.token] : null,
+          (sites: SiteWithId[]) => [...sites, newSite],
+          false
+        );
+        reset();
+      } else {
+        throw new Error('User does not exist');
+      }
     } catch (e) {
-      // TODO: Send error to logger
       console.log(e);
       toast({
         title: 'Site not added',

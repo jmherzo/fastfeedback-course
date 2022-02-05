@@ -2,7 +2,13 @@ import React from 'react';
 import { Box, Heading, Text, Divider } from '@chakra-ui/react';
 import { format, parseISO } from 'date-fns';
 
-const Feedback = ({ author, text, createdAt }) => {
+type FeedbackProps = {
+  author?: string | null;
+  text?: string | null;
+  createdAt: string;
+};
+
+const Feedback = ({ author, text, createdAt }: FeedbackProps) => {
   const authorColor = {
     light: 'gray.900',
     dark: 'gray.200'
