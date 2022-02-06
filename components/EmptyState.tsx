@@ -2,6 +2,7 @@ import React from 'react';
 import { Heading, Flex, Text, Button } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { AddSiteModal } from './AddSiteModal';
 
 export function EmptyState() {
   const router = useRouter();
@@ -27,10 +28,10 @@ export function EmptyState() {
         </>
       ) : (
         <>
-          <Heading size="lg" as="h2">
-            {"You haven't added data."}
+          <Heading size="md" as="h3" display="flex" textAlign="left" mb={8}>
+            {'You have not added any sites.'}
           </Heading>
-          <Text>{"Let's get started."}</Text>
+          <AddSiteModal>+ Add Site</AddSiteModal>
         </>
       )}
     </Flex>

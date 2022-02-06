@@ -28,7 +28,7 @@ export default function Home() {
       </Head>
 
       <LogoIcon color="black" boxSize="64px" />
-      <Heading size="lg" as="h3" mt={4}>
+      <Heading size="lg" as="h3" mt={8} textAlign="center">
         You are in Fast Feedback by jmherzo
       </Heading>
       {auth?.user ? (
@@ -36,11 +36,10 @@ export default function Home() {
           <EmptyState />
         </>
       ) : (
-        <Stack>
+        <Stack spacing={4} mt={8}>
           <Button
             leftIcon={<GithubIcon />}
-            mt={4}
-            onClick={(e) => auth.signinWithGithub?.()}
+            onClick={(e) => auth.signinWithProvider?.('Github')}
             backgroundColor="gray.900"
             color="white"
             fontWeight="medium"
@@ -51,8 +50,7 @@ export default function Home() {
           </Button>
           <Button
             leftIcon={<GoogleIcon />}
-            mt={4}
-            onClick={(e) => auth.signinWithGithub?.()}
+            onClick={(e) => auth.signinWithProvider?.('Google')}
             variant="outline"
             fontWeight="medium"
             size="md"

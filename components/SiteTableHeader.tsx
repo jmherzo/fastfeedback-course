@@ -8,7 +8,11 @@ import {
 } from '@chakra-ui/react';
 import { AddSiteModal } from './AddSiteModal';
 
-export function SiteTableHeader() {
+type SiteTableHeaderProps = {
+  showAddSite?: boolean;
+};
+
+export function SiteTableHeader({ showAddSite = true }: SiteTableHeaderProps) {
   return (
     <>
       <Breadcrumb>
@@ -20,7 +24,7 @@ export function SiteTableHeader() {
       </Breadcrumb>
       <Flex justify="space-between" alignItems="center" mb="2">
         <Heading>My Sites</Heading>
-        <AddSiteModal>+ Add Site</AddSiteModal>
+        {showAddSite ? <AddSiteModal>+ Add Site</AddSiteModal> : null}
       </Flex>
     </>
   );

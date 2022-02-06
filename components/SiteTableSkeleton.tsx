@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Skeleton } from '@chakra-ui/react';
+import { Accordion, AccordionItem, Box, Skeleton } from '@chakra-ui/react';
 import { Table, Tr, Th, Td } from './Table';
+import { useIsMobile } from '@/utils/useIsMobile';
 
 type SkeletonRowProps = {
   width: string;
@@ -24,7 +25,23 @@ const SkeletonRow = ({ width }: SkeletonRowProps) => (
 );
 
 const SiteTableSkeleton = () => {
-  return (
+  const isMobile = useIsMobile();
+  return isMobile ? (
+    <Accordion>
+      <AccordionItem>
+        <Skeleton height="20px" minWidth="100%" my={4} />
+      </AccordionItem>
+      <AccordionItem>
+        <Skeleton height="20px" minWidth="100%" my={4} />
+      </AccordionItem>
+      <AccordionItem>
+        <Skeleton height="20px" minWidth="100%" my={4} />
+      </AccordionItem>
+      <AccordionItem>
+        <Skeleton height="20px" minWidth="100%" my={4} />
+      </AccordionItem>
+    </Accordion>
+  ) : (
     <Table>
       <thead>
         <Tr>
