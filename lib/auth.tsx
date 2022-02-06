@@ -10,10 +10,13 @@ import firebase from '@/lib/firebase';
 import { createUser } from './db';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import { useToast } from '@chakra-ui/react';
+
+type ProviderType = 'Google' | 'Github';
 
 interface Authentication {
   user?: User | null;
-  signinWithGithub?: () => Promise<void>;
+  signinWithProvider?: (providerType: ProviderType) => Promise<void>;
   signout?: () => Promise<void>;
 }
 
@@ -48,6 +51,7 @@ const formatUser = async (user: firebase.User): Promise<User> => ({
 
 function useProvideAuth(): Authentication {
   const [user, setUser] = useState<User | null>(null);
+  const toast = useToast();
   const router = useRouter();
   const handleUser = useCallback(
     async (userFromProvider: firebase.User | null) => {
@@ -62,20 +66,29 @@ function useProvideAuth(): Authentication {
       } else {
         setUser(null);
         Cookies.remove('fast-feedback-auth');
-        // router.push('/');
         return null;
       }
     },
     []
   );
 
-  const signinWithGithub = async () => {
+  const signinWithProvider = async (providerType: ProviderType) => {
+    let provider: firebase.auth.AuthProvider;
+    switch (providerType) {
+      case 'Github':
+        provider = new firebase.auth.GithubAuthProvider();
+        break;
+      case 'Google':
+        provider = new firebase.auth.GoogleAuthProvider();
+        break;
+      default:
+        // TODO: change logic
+        provider = new firebase.auth.GithubAuthProvider();
+    }
     return firebase
       .auth()
-      .signInWithPopup(new firebase.auth.GithubAuthProvider())
+      .signInWithPopup(provider)
       .then((response) => {
-        const credential = response.credential;
-        const tokne = response.user?.getIdToken();
         if (!response.user) {
           console.log('Missing from response');
           throw new Error('Missing user from response');
@@ -93,6 +106,13 @@ function useProvideAuth(): Authentication {
       })
       .catch((error) => {
         console.log({ error });
+        toast({
+          title: 'Sorry, there was a problem!',
+          description: 'We could not log you in. Please contact support.',
+          status: 'error',
+          duration: 12000,
+          isClosable: true
+        });
       });
   };
 
@@ -102,6 +122,7 @@ function useProvideAuth(): Authentication {
       .signOut()
       .then(() => {
         handleUser(null);
+        router.push('/');
       });
   };
 
@@ -115,7 +136,7 @@ function useProvideAuth(): Authentication {
 
   return {
     user,
-    signinWithGithub,
+    signinWithProvider,
     signout
   };
 }

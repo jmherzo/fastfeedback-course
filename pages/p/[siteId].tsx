@@ -14,6 +14,7 @@ import {
 import { createFeedback } from '@/lib/db';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { Feedback as FeedbackType } from '@/lib/interfaces/Feedback';
+import { DashboardShell } from '@/components/DashboardShell';
 
 type SiteFeedbackProps = {
   initialFeedback: FeedbackWithId[] | null;
@@ -88,30 +89,26 @@ export default function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
     }
   }
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      width="full"
-      maxWidth="700px"
-      margin="0 auto"
-    >
-      <Box as="form" onSubmit={onSubmit}>
-        <FormControl my={8}>
-          <FormLabel htmlFor="comment">Comment</FormLabel>
-          <Input ref={inputEl} id="comment" type="comment" />
-          <Button mt={2} type="submit" fontWeight="medium">
-            Add comment
-          </Button>
-        </FormControl>
+    <DashboardShell>
+      <Box display="flex" flexDirection="column" width="full" maxWidth="700px">
+        <Box as="form" onSubmit={onSubmit}>
+          <FormControl mb={8}>
+            <FormLabel htmlFor="comment">Comment</FormLabel>
+            <Input ref={inputEl} id="comment" type="comment" />
+            <Button mt={2} type="submit" fontWeight="medium">
+              Add comment
+            </Button>
+          </FormControl>
+        </Box>
+        {allFeedback?.map((feedback) => (
+          <Feedback
+            key={feedback.id}
+            author={feedback.author}
+            text={feedback.text}
+            createdAt={feedback.createdAt}
+          />
+        ))}
       </Box>
-      {allFeedback?.map((feedback) => (
-        <Feedback
-          key={feedback.id}
-          author={feedback.author}
-          text={feedback.text}
-          createdAt={feedback.createdAt}
-        />
-      ))}
-    </Box>
+    </DashboardShell>
   );
 }

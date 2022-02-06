@@ -24,7 +24,7 @@ export default function Dashboard() {
   }
   return (
     <DashboardShell>
-      <SiteTableHeader />
+      <SiteTableHeader showAddSite={data?.length > 0} />
       {data?.length ? <SiteTable sites={data} /> : <EmptyState />}
     </DashboardShell>
   );
