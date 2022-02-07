@@ -25,7 +25,11 @@ function Feedback() {
   return (
     <DashboardShell>
       <FeedbackTableHeader />
-      {data.length ? <FeedbackTable feedback={data} /> : <EmptyState />}
+      {data.length ? (
+        <FeedbackTable feedback={data} />
+      ) : (
+        <EmptyState type="feedback" />
+      )}
     </DashboardShell>
   );
 }

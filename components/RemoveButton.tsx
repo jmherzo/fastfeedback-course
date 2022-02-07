@@ -47,7 +47,6 @@ export function RemoveButton({ feedbackId }: RemoveButtonProps) {
           icon={<DeleteIcon />}
         />
       </Tooltip>
-
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}

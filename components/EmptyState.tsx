@@ -4,7 +4,11 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { AddSiteModal } from './AddSiteModal';
 
-export function EmptyState() {
+type EmptyStateProps = {
+  type: string;
+};
+
+export function EmptyState({ type = 'site' }: EmptyStateProps) {
   const router = useRouter();
   return (
     <Flex
@@ -17,8 +21,8 @@ export function EmptyState() {
     >
       {router.asPath === '/' ? (
         <>
-          <Heading size="lg" as="h2">
-            Fast Feedback by jmherzo
+          <Heading size="lg" as="h2" textAlign="center">
+            Welcome to Fast Feedback by jmherzo
           </Heading>
           <NextLink href="/dashboard">
             <Button mt={8} colorScheme="blue">
@@ -29,9 +33,9 @@ export function EmptyState() {
       ) : (
         <>
           <Heading size="md" as="h3" display="flex" textAlign="left" mb={8}>
-            {'You have not added any sites.'}
+            {`You have not added any ${type}.`}
           </Heading>
-          <AddSiteModal>+ Add Site</AddSiteModal>
+          {type === 'site' ? <AddSiteModal>+ Add Site</AddSiteModal> : null}
         </>
       )}
     </Flex>

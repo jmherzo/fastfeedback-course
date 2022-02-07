@@ -12,7 +12,8 @@ import {
   Input,
   Button,
   useDisclosure,
-  useToast
+  useToast,
+  ButtonGroup
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { createSite } from '@/lib/db';
@@ -20,6 +21,7 @@ import { useAuth } from '@/lib/auth';
 import { mutate } from 'swr';
 import { Site } from '@/lib/interfaces/Site';
 import { SiteWithId } from '@/lib/db-admin';
+import { useIsMobile } from '@/utils/useIsMobile';
 
 type AddSiteModalProps = {
   children: ReactNode;
@@ -30,14 +32,17 @@ type CreateSite = {
   url: string;
 };
 
+const formNames = {
+  name: 'name',
+  url: 'url'
+};
+
 export function AddSiteModal({ children }: AddSiteModalProps) {
-  // TODO: make it work with refs
-  // const initialRef = useRef();
-  // const finalRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register, reset } = useForm();
   const toast = useToast();
   const { user } = useAuth();
+  const isMobile = useIsMobile();
 
   const onCreateSite = async ({ name, url }: CreateSite) => {
     try {
@@ -91,12 +96,7 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
         {children}
       </Button>
 
-      <Modal
-        // initialFocusRef={initialRef}
-        // finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal isOpen={isOpen} onClose={onClose} size={isMobile ? 'full' : 'md'}>
         <ModalOverlay />
         <ModalContent as="form" onSubmit={handleSubmit(onCreateSite)}>
           <ModalHeader>Add Site</ModalHeader>
@@ -107,9 +107,7 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
               <Input
                 isRequired
                 placeholder="My site"
-                {...register('name', {
-                  required: 'Required'
-                })}
+                {...register(formNames.name)}
               />
             </FormControl>
 
@@ -118,19 +116,23 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
               <Input
                 isRequired
                 placeholder="https://mycoolsite.com"
-                {...register('url', {
-                  required: 'Required'
-                })}
+                {...register(formNames.url)}
               />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose} mr={3}>
-              Cancel
-            </Button>
-            <Button type="submit" colorScheme="teal">
-              Save
-            </Button>
+            <ButtonGroup
+              flexDirection={isMobile ? 'column' : 'row'}
+              width={isMobile ? '100%' : 'inherit'}
+              spacing={isMobile ? 0 : 2}
+            >
+              <Button onClick={onClose} mb={4}>
+                Cancel
+              </Button>
+              <Button type="submit" colorScheme="teal" mb={4}>
+                Save
+              </Button>
+            </ButtonGroup>
           </ModalFooter>
         </ModalContent>
       </Modal>
