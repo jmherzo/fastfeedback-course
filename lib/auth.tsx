@@ -11,6 +11,7 @@ import { createUser } from './db';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import { useToast } from '@chakra-ui/react';
+import { cookieNames } from '@/utils/cookienames';
 
 type ProviderType = 'Google' | 'Github';
 
@@ -58,14 +59,14 @@ function useProvideAuth(): Authentication {
       if (userFromProvider) {
         const newUser = await formatUser(userFromProvider);
         await createUser(newUser);
-        Cookies.set('fast-feedback-auth', 'true', {
+        Cookies.set(cookieNames.auth, 'true', {
           expires: 1
         });
         setUser(newUser);
         return newUser;
       } else {
         setUser(null);
-        Cookies.remove('fast-feedback-auth');
+        Cookies.remove(cookieNames.auth);
         return null;
       }
     },
