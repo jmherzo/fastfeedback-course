@@ -44,6 +44,9 @@ export async function getUserSites(uid: string) {
   snapshot?.forEach((site) => {
     sites.push({ id: site.id, ...site.data() } as SiteWithId);
   });
+  sites.sort((a, b) =>
+    compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
+  );
   return sites;
 }
 

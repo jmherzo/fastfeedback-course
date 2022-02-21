@@ -12,7 +12,7 @@ export function createUser(user: User) {
     .set({ ...user }, { merge: true });
 }
 
-export function createSite(data: Site) {
+export async function createSite(data: Site) {
   // .add will assign a doc id automatically
   return firestore.collection('sites').add(data);
   // Error test

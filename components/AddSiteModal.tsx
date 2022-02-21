@@ -53,7 +53,7 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
           name,
           url
         };
-        await createSite(newSite);
+        const { id } = await createSite(newSite);
         onClose();
         toast({
           title: 'Site added successfully.',
@@ -64,7 +64,7 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
         });
         mutate(
           user?.token ? ['/api/sites', user.token] : null,
-          (sites: SiteWithId[]) => [...sites, newSite],
+          (sites: SiteWithId[]) => [{ ...newSite, id }, ...sites],
           false
         );
         reset();
