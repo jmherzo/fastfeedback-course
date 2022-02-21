@@ -17,6 +17,7 @@ type ProviderType = 'Google' | 'Github';
 
 interface Authentication {
   user?: User | null;
+  isSignedIn?: boolean;
   signinWithProvider?: (providerType: ProviderType) => Promise<void>;
   signout?: () => Promise<void>;
 }
@@ -54,6 +55,7 @@ function useProvideAuth(): Authentication {
   const [user, setUser] = useState<User | null>(null);
   const toast = useToast();
   const router = useRouter();
+  const isSignedIn = Cookies.get(cookieNames.auth) === 'true';
   const handleUser = useCallback(
     async (userFromProvider: firebase.User | null) => {
       if (userFromProvider) {
@@ -137,6 +139,7 @@ function useProvideAuth(): Authentication {
 
   return {
     user,
+    isSignedIn,
     signinWithProvider,
     signout
   };

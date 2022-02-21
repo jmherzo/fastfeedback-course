@@ -4,14 +4,12 @@ import { Button, Flex, Heading, Stack } from '@chakra-ui/react';
 import { GithubIcon, GoogleIcon, LogoIcon } from '@/components/Icons';
 import { EmptyState } from '@/components/EmptyState';
 import { DashboardShell } from '@/components/DashboardShell';
-import Cookies from 'js-cookie';
-import { cookieNames } from '@/utils/cookienames';
 
 export default function Home() {
-  const auth = useAuth();
+  const { signinWithProvider, isSignedIn } = useAuth();
   return (
     <>
-      {Cookies.get(cookieNames.auth) ? (
+      {isSignedIn ? (
         <DashboardShell>
           <EmptyState type="site" />
         </DashboardShell>
@@ -30,7 +28,7 @@ export default function Home() {
           <Stack spacing={4} mt={8}>
             <Button
               leftIcon={<GithubIcon />}
-              onClick={(e) => auth.signinWithProvider?.('Github')}
+              onClick={(e) => signinWithProvider?.('Github')}
               backgroundColor="gray.900"
               color="white"
               fontWeight="medium"
@@ -41,7 +39,7 @@ export default function Home() {
             </Button>
             <Button
               leftIcon={<GoogleIcon />}
-              onClick={(e) => auth.signinWithProvider?.('Google')}
+              onClick={(e) => signinWithProvider?.('Google')}
               variant="outline"
               fontWeight="medium"
               size="md"
