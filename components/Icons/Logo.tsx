@@ -1,6 +1,6 @@
 import { createIcon } from '@chakra-ui/icons';
 
-export const LogoIcon = createIcon({
+export const Logo = createIcon({
   displayName: 'Logo',
   viewBox: '0 0 46 30',
   path: (

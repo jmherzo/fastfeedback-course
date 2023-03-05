@@ -1,6 +1,6 @@
 import { createIcon } from '@chakra-ui/icons';
 
-export const GithubIcon = createIcon({
+export const Github = createIcon({
   displayName: 'GithubIcon',
   path: (
     <g

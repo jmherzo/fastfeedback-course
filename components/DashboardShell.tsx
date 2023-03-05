@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Flex, Link, Stack, Avatar } from '@chakra-ui/react';
-import { LogoIcon } from './Icons';
+import { Logo } from './Icons';
 import { useAuth } from '@/lib/auth';
 import NextLink from 'next/link';
 
@@ -16,7 +16,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         <Stack spacing={4} isInline alignItems="center">
           <NextLink href="/" passHref>
             <a>
-              <LogoIcon boxSize="32px" />
+              <Logo boxSize="32px" />
             </a>
           </NextLink>
           <NextLink href="/dashboard" passHref>
