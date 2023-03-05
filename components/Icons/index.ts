@@ -1,3 +1,3 @@
-export { LogoIcon } from './LogoIcon';
-export { GithubIcon } from './GithubIcon';
-export { GoogleIcon } from './GoogleIcon';
+export { Logo } from './Logo';
+export { Github } from './Github';
+export { Google } from './Google';

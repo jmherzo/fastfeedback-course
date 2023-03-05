@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useAuth } from '@/lib/auth';
 import { Button, Flex, Heading, Stack } from '@chakra-ui/react';
-import { GithubIcon, GoogleIcon, LogoIcon } from '@/components/Icons';
+import { Github, Google, Logo } from '@/components/Icons';
 import { EmptyState } from '@/components/EmptyState';
 import { DashboardShell } from '@/components/DashboardShell';
 
@@ -21,13 +21,13 @@ export default function Home() {
           justify="center"
           h="100vh"
         >
-          <LogoIcon color="black" boxSize="64px" />
+          <Logo color="black" boxSize="64px" />
           <Heading size="lg" as="h3" mt={8} textAlign="center">
-            You are in Fast Feedback by jmherzo
+            This is Fast Feedback by jmherzo
           </Heading>
           <Stack spacing={4} mt={8}>
             <Button
-              leftIcon={<GithubIcon />}
+              leftIcon={<Github />}
               onClick={(e) => signinWithProvider?.('Github')}
               backgroundColor="gray.900"
               color="white"
@@ -38,7 +38,7 @@ export default function Home() {
               Sign in with Github
             </Button>
             <Button
-              leftIcon={<GoogleIcon />}
+              leftIcon={<Google />}
               onClick={(e) => signinWithProvider?.('Google')}
               variant="outline"
               fontWeight="medium"
