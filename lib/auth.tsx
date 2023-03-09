@@ -6,7 +6,7 @@ import {
   ReactNode,
   useCallback
 } from 'react';
-import firebase from '@/lib/firebase';
+import { firebase } from '@/lib/firebase';
 import { createUser } from './db';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';

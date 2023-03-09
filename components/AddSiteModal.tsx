@@ -62,11 +62,13 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
           duration: 9000,
           isClosable: true
         });
-        mutate(
-          user?.token ? ['/api/sites', user.token] : null,
-          (sites: SiteWithId[]) => [{ ...newSite, id }, ...sites],
-          false
-        );
+        mutate(user?.token ? ['/api/sites', user.token] : null, {
+          optimisticData: (sites: SiteWithId[]) => [
+            { ...newSite, id },
+            ...sites
+          ],
+          rollbackOnError: true
+        });
         reset();
       } else {
         throw new Error('User does not exist');

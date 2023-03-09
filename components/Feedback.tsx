@@ -42,4 +42,4 @@ const Feedback = ({ author, text, createdAt }: FeedbackProps) => {
   );
 };
 
-export default Feedback;
+export { Feedback };

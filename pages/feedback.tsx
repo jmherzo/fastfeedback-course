@@ -2,7 +2,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { DashboardShell } from '@/components/DashboardShell';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import useSWR from 'swr';
-import { fetcher } from '@/utils/fetcher';
+import { get } from '@/utils/fetcher';
 import { FeedbackTable } from '@/components/FeedbackTable';
 import { useAuth } from '@/lib/auth';
 import { FeedbackTableHeader } from '@/components/FeedbackTableHeader';
@@ -12,7 +12,7 @@ function Feedback() {
   const { user = null } = useAuth();
   const { data } = useSWR<FeedbackWithId[]>(
     user?.token ? ['/api/feedback', user.token] : null,
-    fetcher
+    ([url, token]: [url: any, token: string]) => get(url, token)
   );
   if (!data) {
     return (

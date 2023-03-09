@@ -1,8 +1,8 @@
-import admin from 'firebase-admin';
+import firebaseAdmin from 'firebase-admin';
 
-if (!admin?.apps?.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert({
+if (!firebaseAdmin?.apps?.length) {
+  firebaseAdmin.initializeApp({
+    credential: firebaseAdmin.credential.cert({
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       privateKey: process.env.FIREBASE_PRIVATE_KEY,
       projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
@@ -11,7 +11,7 @@ if (!admin?.apps?.length) {
   });
 }
 
-const auth = admin.auth();
-const firestore = admin.firestore();
+const auth = firebaseAdmin.auth();
+const firestore = firebaseAdmin.firestore();
 
 export { auth, firestore };

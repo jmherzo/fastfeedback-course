@@ -1,5 +1,5 @@
 import { getUserFeedback } from '@/lib/db-admin';
-import { auth } from '@/lib/firebase-admin';
+import { auth } from '@/lib/firebaseAdmin';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function hanlder(
