@@ -1,5 +1,5 @@
 import { getUserSites } from '@/lib/db-admin';
-import { auth } from '@/lib/firebase-admin';
+import { auth } from '@/lib/firebaseAdmin';
 import { logger } from '@/utils/logger';
 import { NextApiRequest, NextApiResponse } from 'next';
 

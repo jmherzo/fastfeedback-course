@@ -2,17 +2,17 @@ import { EmptyState } from '@/components/EmptyState';
 import { DashboardShell } from '@/components/DashboardShell';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import useSWR from 'swr';
-import { fetcher } from '@/utils/fetcher';
+import { get } from '@/utils/fetcher';
 import SiteTable from '@/components/SiteTable';
 import { useAuth } from '@/lib/auth';
 import { SiteTableHeader } from '@/components/SiteTableHeader';
 import { SiteWithId } from '@/lib/db-admin';
 
-export default function Dashboard() {
+function Dashboard() {
   const { user = null } = useAuth();
   const { data } = useSWR<SiteWithId[]>(
     user?.token ? ['/api/sites', user.token] : null,
-    fetcher
+    ([url, token]: [url: any, token: string]) => get(url, token)
   );
   if (!data) {
     return (
@@ -29,3 +29,5 @@ export default function Dashboard() {
     </DashboardShell>
   );
 }
+
+export default Dashboard;

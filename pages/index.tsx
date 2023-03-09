@@ -5,7 +5,7 @@ import { Github, Google, Logo } from '@/components/Icons';
 import { EmptyState } from '@/components/EmptyState';
 import { DashboardShell } from '@/components/DashboardShell';
 
-export default function Home() {
+function Home() {
   const { signinWithProvider, isSignedIn } = useAuth();
   return (
     <>
@@ -52,3 +52,5 @@ export default function Home() {
     </>
   );
 }
+
+export default Home;

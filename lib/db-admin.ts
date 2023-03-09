@@ -1,5 +1,5 @@
 import { compareDesc, parseISO } from 'date-fns';
-import { firestore } from './firebase-admin';
+import { firestore } from './firebaseAdmin';
 import { Feedback } from './interfaces/Feedback';
 import { Site } from './interfaces/Site';
 

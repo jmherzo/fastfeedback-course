@@ -11,11 +11,10 @@ import {
   Tooltip
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { deleteFeedback } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
-import { mutate } from 'swr';
-import { Feedback } from '@/lib/interfaces/Feedback';
+import { useSWRConfig } from 'swr';
 import { FeedbackWithId } from '@/lib/db-admin';
+import { post } from '@/utils/fetcher';
 
 type RemoveButtonProps = {
   feedbackId: string;
@@ -25,13 +24,18 @@ export function RemoveButton({ feedbackId }: RemoveButtonProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const onClose = () => setIsOpen(false);
   const { user } = useAuth();
+  const { mutate } = useSWRConfig();
   const onDeleteFeedback = () => {
-    deleteFeedback(feedbackId);
     mutate(
       user?.token ? ['/api/feedback', user.token] : null,
-      (feedback: FeedbackWithId[]) =>
-        feedback.filter((feedback) => feedback.id !== feedbackId),
-      false
+      post('/api/feedback/delete', user?.token ?? '', { feedbackId }),
+      {
+        optimisticData: (feedbacks: FeedbackWithId[]) =>
+          feedbacks.filter((feedback) => feedback.id !== feedbackId),
+        rollbackOnError: true
+        // populateCache: (feedbacks) => [...feedbacks],
+        // revalidate: false
+      }
     );
     onClose();
   };

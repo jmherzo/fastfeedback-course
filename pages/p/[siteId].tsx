@@ -1,6 +1,6 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import Feedback from '@/components/Feedback';
+import { Feedback as FeedBackComponent } from '@/components/Feedback';
 import { useAuth } from '@/lib/auth';
 import { FeedbackWithId, getAllFeedback, getAllSites } from '@/lib/db-admin';
 import {
@@ -13,8 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { createFeedback } from '@/lib/db';
 import { GetStaticProps, GetStaticPaths } from 'next';
-import { Feedback as FeedbackType } from '@/lib/interfaces/Feedback';
 import { DashboardShell } from '@/components/DashboardShell';
+import { type Feedback } from '@/lib/interfaces/Feedback';
 
 type SiteFeedbackProps = {
   initialFeedback: FeedbackWithId[] | null;
@@ -52,7 +52,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
+function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
   const auth = useAuth();
   const router = useRouter();
   const inputEl = useRef<HTMLInputElement>(null);
@@ -64,7 +64,7 @@ export default function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
     //To prevent the page from reloading
     event.preventDefault();
     try {
-      const newFeedBack: FeedbackType = {
+      const newFeedBack: Feedback = {
         author: auth.user?.name,
         authorId: auth.user?.uid,
         siteId: router.query.siteId as string,
@@ -73,7 +73,7 @@ export default function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
         provider: auth.user?.provider,
         status: 'pending'
       };
-      await createFeedback(newFeedBack);
+      const newFeedback = await createFeedback(newFeedBack);
       // Using Optimistic UI approach
       if (allFeedback) {
         setAllFeedback([newFeedBack as FeedbackWithId, ...allFeedback]);
@@ -81,8 +81,8 @@ export default function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
     } catch (e) {
       console.log(e);
       toast({
-        title: 'Comment not added',
-        description: 'There was a problem adding your comment.',
+        title: 'Your comment was not added',
+        description: 'Please try again.',
         status: 'error',
         duration: 12000,
         isClosable: true
@@ -102,7 +102,7 @@ export default function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
           </FormControl>
         </Box>
         {allFeedback?.map((feedback) => (
-          <Feedback
+          <FeedBackComponent
             key={feedback.id}
             author={feedback.author}
             text={feedback.text}
@@ -113,3 +113,5 @@ export default function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
     </DashboardShell>
   );
 }
+
+export default SiteFeedback;
