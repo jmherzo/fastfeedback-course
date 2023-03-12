@@ -1,15 +1,24 @@
-import Head from 'next/head';
 import { useAuth } from '@/lib/auth';
 import { Button, Flex, Heading, Stack } from '@chakra-ui/react';
 import { Github, Google, Logo } from '@/components/Icons';
 import { EmptyState } from '@/components/EmptyState';
 import { DashboardShell } from '@/components/DashboardShell';
+import { GetServerSideProps } from 'next';
 
-function Home() {
-  const { signinWithProvider, isSignedIn } = useAuth();
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { req } = ctx;
+  //TODO manage the token id to verify the token validity https://firebase.google.com/docs/auth/admin/verify-id-tokens
+  const isSignedInServer = req.cookies['fast-feedback-auth'] === 'true';
+  return {
+    props: { isSignedInServer }
+  };
+};
+
+function Home({ isSignedInServer }: { isSignedInServer: boolean }) {
+  const { signInWithProvider: signinWithProvider, isSignedIn } = useAuth();
   return (
     <>
-      {isSignedIn ? (
+      {isSignedIn || isSignedInServer ? (
         <DashboardShell>
           <EmptyState type="site" />
         </DashboardShell>
@@ -28,7 +37,7 @@ function Home() {
           <Stack spacing={4} mt={8}>
             <Button
               leftIcon={<Github />}
-              onClick={(e) => signinWithProvider?.('Github')}
+              onClick={() => signinWithProvider?.('Github')}
               backgroundColor="gray.900"
               color="white"
               fontWeight="medium"
@@ -39,7 +48,7 @@ function Home() {
             </Button>
             <Button
               leftIcon={<Google />}
-              onClick={(e) => signinWithProvider?.('Google')}
+              onClick={() => signinWithProvider?.('Google')}
               variant="outline"
               fontWeight="medium"
               size="md"
