@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Flex, Link, Stack, Avatar } from '@chakra-ui/react';
+import { Flex, Link as ChakraLink, Stack, Avatar, Box } from '@chakra-ui/react';
 import { Logo } from './Icons';
 import { useAuth } from '@/lib/auth';
 import NextLink from 'next/link';
@@ -14,17 +14,15 @@ export function DashboardShell({ children }: DashboardShellProps) {
     <Flex flexDirection="column">
       <Flex id="navbar" justifyContent="space-between" p={4}>
         <Stack spacing={4} isInline alignItems="center">
-          <NextLink href="/" passHref>
-            <a>
-              <Logo boxSize="32px" />
-            </a>
-          </NextLink>
-          <NextLink href="/dashboard" passHref>
-            <Link>Sites</Link>
-          </NextLink>
-          <NextLink href="/feedback" passHref>
-            <Link>Feedback</Link>
-          </NextLink>
+          <ChakraLink as={NextLink} href="/" passHref>
+            <Logo boxSize="32px" />
+          </ChakraLink>
+          <ChakraLink as={NextLink} href="/dashboard">
+            Sites
+          </ChakraLink>
+          <ChakraLink as={NextLink} href="/feedback">
+            Feedback
+          </ChakraLink>
         </Stack>
         <Flex
           alignItems="center"
@@ -32,9 +30,9 @@ export function DashboardShell({ children }: DashboardShellProps) {
           flexDirection="row"
         >
           {user ? (
-            <Link mr={4} onClick={() => signout?.()}>
+            <ChakraLink mr={4} onClick={() => signout?.()}>
               Log Out
-            </Link>
+            </ChakraLink>
           ) : null}
           <Avatar size="sm" src={user?.photoUrl ?? ''} />
         </Flex>
@@ -45,11 +43,11 @@ export function DashboardShell({ children }: DashboardShellProps) {
         backgroundColor="gray.50"
         alignItems="center"
         p={8}
-        h="100vh"
+        minHeight="100vh"
       >
-        <Flex id="MainContent" flexDirection="column" maxWidth="800px" w="100%">
+        <Box id="MainContent" flexDirection="column" maxWidth="800px" w="100%">
           {children}
-        </Flex>
+        </Box>
       </Flex>
     </Flex>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading, Flex, Text, Button } from '@chakra-ui/react';
+import { Heading, Flex, Button } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { AddSiteModal } from './AddSiteModal';
