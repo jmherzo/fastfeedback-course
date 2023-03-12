@@ -18,7 +18,7 @@ type ProviderType = 'Google' | 'Github';
 interface Authentication {
   user?: User | null;
   isSignedIn?: boolean;
-  signinWithProvider?: (providerType: ProviderType) => Promise<void>;
+  signInWithProvider?(providerType: ProviderType): Promise<void>;
   signout?: () => Promise<void>;
 }
 
@@ -140,7 +140,7 @@ function useProvideAuth(): Authentication {
   return {
     user,
     isSignedIn,
-    signinWithProvider,
+    signInWithProvider: signinWithProvider,
     signout
   };
 }

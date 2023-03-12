@@ -23,7 +23,7 @@ export default async function handler(
           statusCode: res.statusCode
         }
       },
-      `${error}`
+      error instanceof Error ? error.message : `${error}`
     );
     res.status(500).json({ error });
   }

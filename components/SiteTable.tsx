@@ -6,7 +6,7 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Link,
+  Link as ChakraLink,
   Stack,
   Table,
   Tbody,
@@ -14,10 +14,8 @@ import {
   Th,
   Thead,
   Tr,
-  Text,
   Heading
 } from '@chakra-ui/react';
-// import { Table, Tr, Th, Td } from './Table';
 import { format, parseISO } from 'date-fns';
 import NextLink from 'next/link';
 import { useIsMobile } from '@/utils/useIsMobile';
@@ -55,9 +53,9 @@ const SiteTable = ({ sites }: SiteTableProps) => {
                 <Heading size="sm" fontWeight="semibold">
                   Url:
                 </Heading>
-                <Link isExternal href={site.url} variant="primary">
+                <ChakraLink isExternal href={site.url} variant="primary">
                   {site.url}
-                </Link>
+                </ChakraLink>
               </Box>
               <Box flexDirection="column">
                 <Heading size="sm" fontWeight="semibold">
@@ -65,9 +63,13 @@ const SiteTable = ({ sites }: SiteTableProps) => {
                 </Heading>
                 {format(parseISO(site.createdAt), 'PPpp')}
               </Box>
-              <NextLink href="/p/[siteId]" as={`/p/${site.id}`} passHref>
-                <Link variant="primary">View Feedback</Link>
-              </NextLink>
+              <ChakraLink
+                as={NextLink}
+                href={`/p/${site.id}`}
+                variant="primary"
+              >
+                View Feedback
+              </ChakraLink>
               {site.createdAt}
             </Stack>
           </AccordionPanel>
@@ -90,14 +92,18 @@ const SiteTable = ({ sites }: SiteTableProps) => {
           <Tr key={site.id + i}>
             <Td fontWeight="medium">{site.name}</Td>
             <Td>
-              <Link isExternal href={site.url}>
+              <ChakraLink isExternal href={site.url}>
                 {site.url}
-              </Link>
+              </ChakraLink>
             </Td>
             <Td>
-              <NextLink href="/p/[siteId]" as={`/p/${site.id}`} passHref>
-                <Link variant="primary">View Feedback</Link>
-              </NextLink>
+              <ChakraLink
+                as={NextLink}
+                href={`/p/${site.id}`}
+                variant="primary"
+              >
+                View Feedback
+              </ChakraLink>
             </Td>
             <Td>{format(parseISO(site.createdAt), 'PPpp')}</Td>
           </Tr>

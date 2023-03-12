@@ -21,8 +21,8 @@ export const FeedbackTable = ({ feedback }: FeedbackTableProps) => {
         </Tr>
       </thead>
       <tbody>
-        {feedback.map((feedback, i) => (
-          <Box as="tr" key={feedback.id + i}>
+        {feedback.map((feedback) => (
+          <Box as="tr" key={feedback.documentId}>
             <Td fontWeight="medium">{feedback.author}</Td>
             <Td>{feedback.text}</Td>
             <Td>
@@ -36,7 +36,7 @@ export const FeedbackTable = ({ feedback }: FeedbackTableProps) => {
               />
             </Td>
             <Td>
-              <RemoveButton feedbackId={feedback.id} />
+              <RemoveButton feedbackId={feedback.documentId} />
             </Td>
           </Box>
         ))}
