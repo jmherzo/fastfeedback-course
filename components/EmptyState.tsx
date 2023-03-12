@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heading, Flex, Button } from '@chakra-ui/react';
+import { Heading, Flex, Button, useColorModeValue } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { AddSiteModal } from './AddSiteModal';
@@ -15,7 +15,7 @@ export function EmptyState({ type = 'site' }: EmptyStateProps) {
       id="EmptyState"
       flexDirection="column"
       alignItems="center"
-      backgroundColor="white"
+      bg={useColorModeValue('white', 'gray.800')}
       borderRadius="8px"
       p={8}
     >

@@ -1,25 +1,31 @@
 import { theme as chakraTheme, extendTheme } from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
 
-const theme = extendTheme({
-  ...chakraTheme,
-  global: {
-    html: {
-      scrollBehavior: 'smooth'
+const config = {
+  styles: {
+    global: (props: any) => ({
+      html: {
+        scrollBehavior: 'smooth'
+      },
+      body: {
+        bg: mode('white', 'gray.800')(props)
+      }
+      //TODO: erase this config
+      // '#__next': {
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   minHeight: '100vh'
+      // }
+    }),
+    fonts: {
+      ...chakraTheme.fonts,
+      body: `Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"`
     },
-    '#__next': {
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '100vh'
+    fontWeights: {
+      normal: 400,
+      medium: 600,
+      bold: 700
     }
-  },
-  fonts: {
-    ...chakraTheme.fonts,
-    body: `Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"`
-  },
-  fontWeights: {
-    normal: 400,
-    medium: 600,
-    bold: 700
   },
   components: {
     Link: {
@@ -77,7 +83,9 @@ const theme = extendTheme({
       viewBox: '0 0 533.5 544.3'
     }
   },
+  initialColorMode: 'system',
   useSystemColor: true
-});
+};
 
+const theme: Record<string, typeof config> = extendTheme({ config });
 export default theme;

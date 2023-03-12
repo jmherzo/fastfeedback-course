@@ -1,8 +1,16 @@
 import React, { ReactNode } from 'react';
-import { Flex, Link as ChakraLink, Stack, Avatar, Box } from '@chakra-ui/react';
+import {
+  Flex,
+  Link as ChakraLink,
+  Stack,
+  Avatar,
+  Box,
+  useColorModeValue
+} from '@chakra-ui/react';
 import { Logo } from './Icons';
 import { useAuth } from '@/lib/auth';
 import NextLink from 'next/link';
+import { ToggleColor } from './ToggleColor';
 
 type DashboardShellProps = {
   children: ReactNode;
@@ -29,6 +37,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
           justifyContent="space-between"
           flexDirection="row"
         >
+          <ToggleColor />
           {user ? (
             <ChakraLink mr={4} onClick={() => signout?.()}>
               Log Out
@@ -40,7 +49,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
       <Flex
         id="GrayContainer"
         flexDirection="column"
-        backgroundColor="gray.50"
+        bg={useColorModeValue('gray.50', 'gray.700')}
         alignItems="center"
         p={8}
         minHeight="100vh"
