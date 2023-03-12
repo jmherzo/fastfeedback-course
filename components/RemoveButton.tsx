@@ -31,10 +31,8 @@ export function RemoveButton({ feedbackId }: RemoveButtonProps) {
       post('/api/feedback/delete', user?.token ?? '', { feedbackId }),
       {
         optimisticData: (feedbacks: FeedbackWithId[]) =>
-          feedbacks.filter((feedback) => feedback.id !== feedbackId),
+          feedbacks.filter((feedback) => feedback.documentId !== feedbackId),
         rollbackOnError: true
-        // populateCache: (feedbacks) => [...feedbacks],
-        // revalidate: false
       }
     );
     onClose();

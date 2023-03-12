@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Feedback as FeedBackComponent } from '@/components/Feedback';
 import { useAuth } from '@/lib/auth';
@@ -60,8 +60,15 @@ function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
   const [allFeedback, setAllFeedback] = useState<FeedbackWithId[] | null>(
     initialFeedback
   );
+
+  useEffect(() => {
+    // clean the input
+    if (inputEl?.current?.value) {
+      inputEl.current.value = '';
+    }
+  }, [allFeedback]);
+
   async function onSubmit(event: FormEvent) {
-    //To prevent the page from reloading
     event.preventDefault();
     try {
       const newFeedBack: Feedback = {
@@ -73,10 +80,15 @@ function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
         provider: auth.user?.provider,
         status: 'pending'
       };
-      const newFeedback = await createFeedback(newFeedBack);
+      //TODO: CHANGE TO MUTATE
+      await createFeedback(newFeedBack);
+      const newFeedBackWithId: FeedbackWithId = {
+        documentId: crypto.randomUUID?.() ?? '',
+        ...newFeedBack
+      };
       // Using Optimistic UI approach
       if (allFeedback) {
-        setAllFeedback([newFeedBack as FeedbackWithId, ...allFeedback]);
+        setAllFeedback([newFeedBackWithId, ...allFeedback]);
       }
     } catch (e) {
       console.log(e);
@@ -96,14 +108,14 @@ function SiteFeedback({ initialFeedback }: SiteFeedbackProps) {
           <FormControl mb={8}>
             <FormLabel htmlFor="comment">Comment</FormLabel>
             <Input ref={inputEl} id="comment" type="comment" />
-            <Button mt={2} type="submit" fontWeight="medium">
+            <Button type="submit" mt={2} fontWeight="medium">
               Add comment
             </Button>
           </FormControl>
         </Box>
         {allFeedback?.map((feedback) => (
           <FeedBackComponent
-            key={feedback.id}
+            key={feedback.documentId}
             author={feedback.author}
             text={feedback.text}
             createdAt={feedback.createdAt}

@@ -4,7 +4,7 @@ import { Feedback } from './interfaces/Feedback';
 import { Site } from './interfaces/Site';
 
 export interface FeedbackWithId extends Feedback {
-  id: string;
+  documentId: string;
 }
 
 export interface SiteWithId extends Site {
@@ -18,7 +18,7 @@ export async function getAllFeedback(siteId: string) {
     ?.get();
   const feedback: FeedbackWithId[] = [];
   snapshot?.forEach((doc) => {
-    feedback.push({ id: doc.id, ...doc.data() } as FeedbackWithId);
+    feedback.push({ documentId: doc.id, ...doc.data() } as FeedbackWithId);
   });
   feedback.sort((a, b) =>
     compareDesc(parseISO(a.createdAt), parseISO(b.createdAt))
@@ -57,7 +57,7 @@ export async function getUserFeedback(uid: string) {
     ?.get();
   const feedback: FeedbackWithId[] = [];
   snapshot?.forEach((doc) => {
-    feedback.push({ id: doc.id, ...doc.data() } as FeedbackWithId);
+    feedback.push({ documentId: doc.id, ...doc.data() } as FeedbackWithId);
   });
   return feedback;
 }
