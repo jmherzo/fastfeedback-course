@@ -7,12 +7,22 @@ import SiteTable from '@/components/SiteTable';
 import { useAuth } from '@/lib/auth';
 import { SiteTableHeader } from '@/components/SiteTableHeader';
 import { SiteWithId } from '@/lib/db-admin';
+import { GetServerSideProps } from 'next';
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { req } = ctx;
+  //TODO manage the token id to verify the token validity https://firebase.google.com/docs/auth/admin/verify-id-tokens
+  const isSignedInServer = req.cookies['fast-feedback-auth'] === 'true';
+  return {
+    props: { isSignedInServer }
+  };
+};
 
 function Dashboard() {
   const { user = null } = useAuth();
   const { data } = useSWR<SiteWithId[]>(
     user?.token ? ['/api/sites', user.token] : null,
-    ([url, token]: [url: any, token: string]) => get(url, token)
+    ([url, token]: [url: string, token: string]) => get(url, token)
   );
   if (!data) {
     return (

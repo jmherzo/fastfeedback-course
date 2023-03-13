@@ -19,7 +19,7 @@ type DashboardShellProps = {
 export function DashboardShell({ children }: DashboardShellProps) {
   const { user, signout } = useAuth();
   return (
-    <Flex flexDirection="column">
+    <Flex flexDirection="column" minHeight="100vh">
       <Flex id="navbar" justifyContent="space-between" p={4}>
         <Stack spacing={4} isInline alignItems="center">
           <ChakraLink as={NextLink} href="/" passHref>
@@ -37,7 +37,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
           justifyContent="space-between"
           flexDirection="row"
         >
-          <ToggleColor />
+          <ToggleColor ml="2" mr="2" />
           {user ? (
             <ChakraLink mr={4} onClick={() => signout?.()}>
               Log Out
@@ -52,7 +52,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
         bg={useColorModeValue('gray.50', 'gray.700')}
         alignItems="center"
         p={8}
-        minHeight="100vh"
+        flexGrow="1"
       >
         <Box id="MainContent" flexDirection="column" maxWidth="800px" w="100%">
           {children}

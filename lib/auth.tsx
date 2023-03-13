@@ -75,7 +75,7 @@ function useProvideAuth(): Authentication {
     []
   );
 
-  const signinWithProvider = async (providerType: ProviderType) => {
+  const signInWithProvider = async (providerType: ProviderType) => {
     let provider: firebase.auth.AuthProvider;
     switch (providerType) {
       case 'Github':
@@ -140,7 +140,7 @@ function useProvideAuth(): Authentication {
   return {
     user,
     isSignedIn,
-    signInWithProvider: signinWithProvider,
+    signInWithProvider,
     signout
   };
 }

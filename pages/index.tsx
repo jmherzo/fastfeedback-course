@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 function Home({ isSignedInServer }: { isSignedInServer: boolean }) {
-  const { signInWithProvider: signinWithProvider, isSignedIn } = useAuth();
+  const { signInWithProvider, isSignedIn } = useAuth();
   return (
     <>
       {isSignedIn || isSignedInServer ? (
@@ -24,8 +24,8 @@ function Home({ isSignedInServer }: { isSignedInServer: boolean }) {
           <EmptyState type="site" />
         </DashboardShell>
       ) : (
-        <Flex h="100vh" direction="column">
-          <Flex mt="4">
+        <Flex h="100vh" direction="column" p="4">
+          <Flex justify="end">
             <ToggleColor />
           </Flex>
           <Flex
@@ -42,7 +42,7 @@ function Home({ isSignedInServer }: { isSignedInServer: boolean }) {
             <Stack spacing={4} mt={8}>
               <Button
                 leftIcon={<Github />}
-                onClick={() => signinWithProvider?.('Github')}
+                onClick={() => signInWithProvider?.('Github')}
                 fontWeight="medium"
                 size="md"
                 variant="outline"
@@ -51,7 +51,7 @@ function Home({ isSignedInServer }: { isSignedInServer: boolean }) {
               </Button>
               <Button
                 leftIcon={<Google />}
-                onClick={() => signinWithProvider?.('Google')}
+                onClick={() => signInWithProvider?.('Google')}
                 variant="outline"
                 fontWeight="medium"
                 size="md"
