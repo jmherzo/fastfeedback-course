@@ -1,6 +1,14 @@
 import React from 'react';
-import { Accordion, AccordionItem, Box, Skeleton } from '@chakra-ui/react';
-import { Table, Tr, Th, Td } from './Table';
+import {
+  Accordion,
+  AccordionItem,
+  Box,
+  Skeleton,
+  Table,
+  Tr,
+  Th,
+  Td
+} from '@chakra-ui/react';
 import { useIsMobile } from '@/utils/useIsMobile';
 
 type SkeletonRowProps = {

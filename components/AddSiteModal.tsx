@@ -62,7 +62,7 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
           duration: 9000,
           isClosable: true
         });
-        mutate(user?.token ? ['/api/sites', user.token] : null, {
+        mutate(user?.jwt ? ['/api/sites', user.jwt] : null, {
           optimisticData: (sites: SiteWithId[]) => [
             { ...newSite, id },
             ...sites

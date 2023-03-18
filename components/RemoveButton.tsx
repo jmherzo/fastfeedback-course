@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import { useRef, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -21,14 +21,14 @@ type RemoveButtonProps = {
 };
 
 export function RemoveButton({ feedbackId }: RemoveButtonProps) {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);
   const { user } = useAuth();
   const { mutate } = useSWRConfig();
   const onDeleteFeedback = () => {
     mutate(
-      user?.token ? ['/api/feedback', user.token] : null,
-      post('/api/feedback/delete', user?.token ?? '', { feedbackId }),
+      user?.jwt ? ['/api/feedback', user.jwt] : null,
+      post('/api/feedback/delete', user?.jwt ?? '', { feedbackId }),
       {
         optimisticData: (feedbacks: FeedbackWithId[]) =>
           feedbacks.filter((feedback) => feedback.documentId !== feedbackId),
@@ -37,7 +37,7 @@ export function RemoveButton({ feedbackId }: RemoveButtonProps) {
     );
     onClose();
   };
-  const cancelRef = React.useRef() as RefObject<any>;
+  const cancelRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>

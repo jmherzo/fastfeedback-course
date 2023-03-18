@@ -1,6 +1,15 @@
 import React from 'react';
-import { Box, Code, Switch } from '@chakra-ui/react';
-import { Table, Tr, Th, Td } from './Table';
+import {
+  Box,
+  Code,
+  Switch,
+  Table,
+  Thead,
+  Th,
+  Tr,
+  Tbody,
+  Td
+} from '@chakra-ui/react';
 import { RemoveButton } from './RemoveButton';
 import { FeedbackWithId } from '@/lib/db-admin';
 
@@ -11,7 +20,7 @@ type FeedbackTableProps = {
 export const FeedbackTable = ({ feedback }: FeedbackTableProps) => {
   return (
     <Table>
-      <thead>
+      <Thead>
         <Tr>
           <Th>Name</Th>
           <Th>Feedback</Th>
@@ -19,14 +28,14 @@ export const FeedbackTable = ({ feedback }: FeedbackTableProps) => {
           <Th>Visible</Th>
           <Th>{''}</Th>
         </Tr>
-      </thead>
-      <tbody>
+      </Thead>
+      <Tbody>
         {feedback.map((feedback) => (
           <Box as="tr" key={feedback.documentId}>
             <Td fontWeight="medium">{feedback.author}</Td>
             <Td>{feedback.text}</Td>
             <Td>
-              <Code>{'/'}</Code>
+              <Code>{`/`}</Code>
             </Td>
             <Td>
               <Switch
@@ -40,7 +49,7 @@ export const FeedbackTable = ({ feedback }: FeedbackTableProps) => {
             </Td>
           </Box>
         ))}
-      </tbody>
+      </Tbody>
     </Table>
   );
 };

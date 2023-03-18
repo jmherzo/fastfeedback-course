@@ -34,10 +34,10 @@ interface SiteTableProps {
 const SiteTable = ({ sites }: SiteTableProps) => {
   const isMobile = useIsMobile();
   return isMobile ? (
-    <Accordion allowMultiple allowToggle mt={4} bg="whiteAlpha">
+    <Accordion allowMultiple mt={4} bg="whiteAlpha">
       {sites.map((site) => (
         <AccordionItem key={site.id}>
-          <Box as="h1" bg="whiteAlpha.500">
+          <Box as="h1">
             <AccordionButton borderBottom="1" p={4}>
               <Box flex="1" textAlign="left">
                 <Heading size="md" fontWeight="normal">
@@ -53,7 +53,7 @@ const SiteTable = ({ sites }: SiteTableProps) => {
                 <Heading size="sm" fontWeight="semibold">
                   Url:
                 </Heading>
-                <ChakraLink isExternal href={site.url} variant="primary">
+                <ChakraLink isExternal href={site.url} color="blue.400">
                   {site.url}
                 </ChakraLink>
               </Box>
@@ -63,11 +63,7 @@ const SiteTable = ({ sites }: SiteTableProps) => {
                 </Heading>
                 {format(parseISO(site.createdAt), 'PPpp')}
               </Box>
-              <ChakraLink
-                as={NextLink}
-                href={`/p/${site.id}`}
-                variant="primary"
-              >
+              <ChakraLink as={NextLink} href={`/p/${site.id}`} color="blue.400">
                 View Feedback
               </ChakraLink>
               {site.createdAt}
@@ -92,16 +88,12 @@ const SiteTable = ({ sites }: SiteTableProps) => {
           <Tr key={site.id + i}>
             <Td fontWeight="medium">{site.name}</Td>
             <Td>
-              <ChakraLink isExternal href={site.url}>
+              <ChakraLink isExternal href={site.url} color="blue.400">
                 {site.url}
               </ChakraLink>
             </Td>
             <Td>
-              <ChakraLink
-                as={NextLink}
-                href={`/p/${site.id}`}
-                variant="primary"
-              >
+              <ChakraLink as={NextLink} href={`/p/${site.id}`} color="blue.400">
                 View Feedback
               </ChakraLink>
             </Td>
