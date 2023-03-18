@@ -1,13 +1,10 @@
 import { EmptyState } from '@/components/EmptyState';
 import { DashboardShell } from '@/components/DashboardShell';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
-import useSWR from 'swr';
-import { get } from '@/utils/fetcher';
 import SiteTable from '@/components/SiteTable';
-import { useAuth } from '@/lib/auth';
 import { SiteTableHeader } from '@/components/SiteTableHeader';
-import { SiteWithId } from '@/lib/db-admin';
 import { GetServerSideProps } from 'next';
+import { useSites } from 'hooks/useSites';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { req } = ctx;
@@ -19,12 +16,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 function Dashboard() {
-  const { user = null } = useAuth();
-  const { data } = useSWR<SiteWithId[]>(
-    user?.token ? ['/api/sites', user.token] : null,
-    ([url, token]: [url: string, token: string]) => get(url, token)
-  );
-  if (!data) {
+  const { data, isValidating } = useSites();
+  if (isValidating) {
     return (
       <DashboardShell>
         <SiteTableHeader />
@@ -34,7 +27,7 @@ function Dashboard() {
   }
   return (
     <DashboardShell>
-      <SiteTableHeader showAddSite={data?.length > 0} />
+      <SiteTableHeader showAddSite={data && data.length > 0} />
       {data?.length ? <SiteTable sites={data} /> : <EmptyState type="site" />}
     </DashboardShell>
   );

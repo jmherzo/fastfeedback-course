@@ -7,9 +7,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { siteId } = req.query as { siteId: string };
-    const feedback = await getAllFeedback(siteId);
-    res.status(200).json({ feedback });
+    const siteId = req.query.siteId;
+    if (typeof siteId === 'string') {
+      const feedback = await getAllFeedback(siteId);
+      res.status(200).json({ feedback });
+    } else {
+      throw TypeError('SiteId is not a string');
+    }
   } catch (error) {
     logger.error(
       {

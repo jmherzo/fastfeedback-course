@@ -27,43 +27,43 @@ export interface User {
   name: string | null;
   photoUrl: string | null;
   provider?: string;
-  token: string;
+  jwt: string;
   uid: string;
 }
 
-const authContext = createContext<Authentication>({});
+const AuthContext = createContext<Authentication>({});
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const auth = useProvideAuth();
-  return <authContext.Provider value={auth}> {children} </authContext.Provider>;
+  const auth = useAuthProvider();
+  return <AuthContext.Provider value={auth}> {children} </AuthContext.Provider>;
 }
 
 export const useAuth = () => {
-  return useContext(authContext);
+  return useContext(AuthContext);
 };
 
 const formatUser = async (user: firebase.User): Promise<User> => ({
   uid: user.uid,
   email: user.email,
   name: user.displayName,
-  token: await user.getIdToken(),
+  jwt: await user.getIdToken(),
   provider: user.providerData?.[0]?.providerId,
   photoUrl: user.photoURL
 });
 
-function useProvideAuth(): Authentication {
+function useAuthProvider(): Authentication {
   const [user, setUser] = useState<User | null>(null);
-  const toast = useToast();
   const router = useRouter();
+  const toast = useToast();
+  // TODO: change to determine signed in state in server and in client via jwt
   const isSignedIn = Cookies.get(cookieNames.auth) === 'true';
   const handleUser = useCallback(
     async (userFromProvider: firebase.User | null) => {
       if (userFromProvider) {
         const newUser = await formatUser(userFromProvider);
         await createUser(newUser);
-        Cookies.set(cookieNames.auth, 'true', {
-          expires: 1
-        });
+        // TODO: store jwt token in cookie
+        Cookies.set(cookieNames.auth, 'true', {});
         setUser(newUser);
         return newUser;
       } else {
@@ -85,7 +85,7 @@ function useProvideAuth(): Authentication {
         provider = new firebase.auth.GoogleAuthProvider();
         break;
       default:
-        // TODO: change logic
+        // TODO: improve logic
         provider = new firebase.auth.GithubAuthProvider();
     }
     return firebase

@@ -56,6 +56,7 @@ export async function getUserFeedback(uid: string) {
     ?.where('authorId', '==', uid)
     ?.get();
   const feedback: FeedbackWithId[] = [];
+  // TODO: add url to each feedback
   snapshot?.forEach((doc) => {
     feedback.push({ documentId: doc.id, ...doc.data() } as FeedbackWithId);
   });

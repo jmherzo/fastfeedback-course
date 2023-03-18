@@ -11,8 +11,8 @@ import { FeedbackWithId } from '@/lib/db-admin';
 function Feedback() {
   const { user = null } = useAuth();
   const { data } = useSWR<FeedbackWithId[]>(
-    user?.token ? ['/api/feedback', user.token] : null,
-    ([url, token]: [url: any, token: string]) => get(url, token)
+    user?.jwt ? ['/api/feedback', user.jwt] : null,
+    ([url, token]: [url: string, token: string]) => get(url, token)
   );
   if (!data) {
     return (
