@@ -3,9 +3,9 @@ import { DashboardShell } from '@/components/DashboardShell';
 import SiteTableSkeleton from '@/components/SiteTableSkeleton';
 import useSWR from 'swr';
 import { get } from '@/utils/fetcher';
-import { FeedbackTable } from '@/components/FeedbackTable';
+import { FeedbackTable } from '@/components/Feedback/FeedbackTable';
 import { useAuth } from '@/lib/auth';
-import { FeedbackTableHeader } from '@/components/FeedbackTableHeader';
+import { FeedbackTableHeader } from '@/components/Feedback/FeedbackTableHeader';
 import { FeedbackWithId } from '@/lib/db-admin';
 
 function Feedback() {

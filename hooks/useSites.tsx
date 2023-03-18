@@ -7,6 +7,9 @@ export function useSites() {
   const { user = null } = useAuth();
   return useSWR<SiteWithId[]>(
     user?.jwt ? ['/api/sites', user.jwt] : null,
-    ([url, token]: [url: string, token: string]) => get(url, token)
+    ([url, token]: [url: string, token: string]) => get(url, token),
+    {
+      revalidateOnReconnect: false
+    }
   );
 }

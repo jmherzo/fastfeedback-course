@@ -10,7 +10,7 @@ import {
   Tbody,
   Td
 } from '@chakra-ui/react';
-import { RemoveButton } from './RemoveButton';
+import { RemoveButton } from '../RemoveButton';
 import { FeedbackWithId } from '@/lib/db-admin';
 
 type FeedbackTableProps = {
