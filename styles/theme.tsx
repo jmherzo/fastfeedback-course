@@ -10,12 +10,6 @@ const config = {
       body: {
         bg: mode('white', 'gray.800')(props)
       }
-      //TODO: erase this config
-      // '#__next': {
-      //   display: 'flex',
-      //   flexDirection: 'column',
-      //   minHeight: '100vh'
-      // }
     }),
     fonts: {
       ...chakraTheme.fonts,

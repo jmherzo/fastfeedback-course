@@ -1,12 +1,12 @@
 import { useAuth } from '@/lib/auth';
-import { SiteWithId } from '@/lib/db-admin';
-import useSWR from 'swr';
+import { FeedbackWithId } from '@/lib/db-admin';
 import { get } from '@/utils/fetcher';
+import useSWR from 'swr';
 
-export function useSites() {
+export function useFeedback() {
   const { user = null } = useAuth();
-  return useSWR<SiteWithId[]>(
-    user?.jwt ? ['/api/sites', user.jwt] : null,
+  return useSWR<FeedbackWithId[]>(
+    user?.jwt ? ['/api/feedback', user.jwt] : null,
     ([url, token]: [url: string, token: string]) => get(url, token),
     {
       revalidateOnReconnect: false,

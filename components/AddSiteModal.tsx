@@ -63,10 +63,6 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
           isClosable: true
         });
         mutate(user?.jwt ? ['/api/sites', user.jwt] : null, {
-          optimisticData: (sites: SiteWithId[]) => [
-            { ...newSite, id },
-            ...sites
-          ],
           rollbackOnError: true
         });
         reset();
