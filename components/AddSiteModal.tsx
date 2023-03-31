@@ -20,7 +20,6 @@ import { createSite } from '@/lib/db';
 import { useAuth } from '@/lib/auth';
 import { mutate } from 'swr';
 import { Site } from '@/lib/interfaces/Site';
-import { SiteWithId } from '@/lib/db-admin';
 import { useIsMobile } from '@/utils/useIsMobile';
 
 type AddSiteModalProps = {
@@ -53,7 +52,7 @@ export function AddSiteModal({ children }: AddSiteModalProps) {
           name,
           url
         };
-        const { id } = await createSite(newSite);
+        await createSite(newSite);
         onClose();
         toast({
           title: 'Site added successfully.',

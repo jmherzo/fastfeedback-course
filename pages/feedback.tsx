@@ -6,8 +6,9 @@ import { FeedbackTableHeader } from '@/components/Feedback/FeedbackTableHeader';
 import { useFeedback } from 'hooks/useFeedback';
 
 function Feedback() {
-  const { data, isValidating } = useFeedback();
-  if (isValidating) {
+  const { data, isValidating, isLoading } = useFeedback();
+
+  if (isValidating || isLoading) {
     return (
       <DashboardShell>
         <FeedbackTableHeader />
@@ -18,7 +19,7 @@ function Feedback() {
   return (
     <DashboardShell>
       <FeedbackTableHeader />
-      {data.length ? (
+      {data?.length ? (
         <FeedbackTable feedback={data} />
       ) : (
         <EmptyState type="feedback" />

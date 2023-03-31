@@ -5,7 +5,7 @@ import useSWR from 'swr';
 
 export function useFeedback() {
   const { user = null } = useAuth();
-  return useSWR<FeedbackWithId[]>(
+  return useSWR<FeedbackWithId[] | undefined>(
     user?.jwt ? ['/api/feedback', user.jwt] : null,
     ([url, token]: [url: string, token: string]) => get(url, token),
     {
